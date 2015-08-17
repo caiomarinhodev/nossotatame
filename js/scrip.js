@@ -15,6 +15,11 @@ function get_url_geral(indice){
     return url;
 }
 
+//metodo para print no console in dev moment.
+function print(key, value){
+    console.log(key+" - "+ value);
+}
+
 //metodo para pegar conteudo por pagina para a list de Início (geral), com atualização das variaveis globais.
 function get_content_home_server(page){
     var resp = $.ajax({
@@ -29,6 +34,11 @@ function get_content_home_server(page){
                 enable_anterior(actual);
                 var lista = $('#lista');
                 var posts = response.posts;
+                print('total_pages', total_pages);
+                print('actual_category', actual_category);
+                print('anterior', anterior);
+                print('actual', actual);
+                print('posts',posts);
                 posts.forEach(function(post) {
                     add_item_in_list(post.id, post.title,
                         post.thumbnail, post.date,post.content,
@@ -56,6 +66,11 @@ function get_content_cat_tec_server(page){
             enable_anterior(actual);
             var lista = $('#lista');
             var posts = response.posts;
+            print('total_pages', total_pages);
+            print('actual_category', actual_category);
+            print('anterior', anterior);
+            print('actual', actual);
+            print('posts',posts);
             posts.forEach(function(post) {
                 add_item_in_list(post.id, post.title,
                     post.thumbnail, post.date,post.content,
@@ -83,6 +98,11 @@ function get_content_cat_server(cat, page){
             enable_anterior(actual);
             var lista = $('#lista');
             var posts = response.posts;
+            print('total_pages', total_pages);
+            print('actual_category', actual_category);
+            print('anterior', anterior);
+            print('actual', actual);
+            print('posts',posts);
             posts.forEach(function(post) {
                 add_item_in_list(post.id, post.title,
                     post.thumbnail, post.date,post.content,
@@ -127,6 +147,7 @@ function add_item_in_list(id, title,
     lista.append(item);
 }
 
+// esta funcao refresh lista e delega metodo de click para cada item.
 function refresh_list(){
     var lista = $('#lista');
     lista.promise().done(function () {
@@ -135,8 +156,11 @@ function refresh_list(){
         //then add click event using delegation
         $(this).on("click", "li", function () {
             var content = $(this).children().children().children('.itemizer').children('.conteudo').val();
-            url = get_source_video(content);
-            $.mobile.navigate('video.html');
+            if(get_source_video(content)){
+                $.mobile.navigate('video.html');
+            }else{
+                $.mobile.navigate('texto.html');
+            }
             //var div = $('#div_video');
             //div.append(url);
             //div.page();
@@ -152,21 +176,27 @@ function exist_video(content){
     return false;
 }
 
-//metodo pega apenas o url para incluir no source da pagina de video (Video_Page).
+//metodo pega apenas o url ou  conteudo para incluir no source da pagina de video ou pagina de texto.
 function get_source_video(content){
     if(exist_video(content)){
+        print('content', content);
         var init = content.indexOf('<iframe src=');
         var finish = content.indexOf('</iframe>');
         var iframe = content.substring(init,finish+9);
-        console.log(iframe);
+        print('iframe', iframe);
         var iframe_init = iframe.indexOf('src=');
         var iframe_finish = iframe.indexOf(' height=');
         var link = iframe.substring(iframe_init+5, iframe_finish-1);
-        console.log(link);
-        return link;
+        print('link',link);
+        url = link;
+        return true;
     }else{
-        return "#";
-        console.log(content);
+        print('content', content);
+        var wi = ($(document).width()) - 30;
+        var new_content = content.replace(/\bwidth="(\d+)"/g, "width= "+wi+"px");
+        print('content', new_content);
+        url = new_content;
+        return false;
     }
 
 }
@@ -329,6 +359,14 @@ $( document ).delegate("#video_page", "pageinit", function() {
     var wi = ($(document).width()) - 30;
     $('#video').attr('width', '' + wi);
     var link = url+"?autoplay=1";
-    console.log(link);
-    $('#video').attr('src', link);
+    print('link',link);
+    if(link != "#?autoplay=1" && link != "#" && link != ""){
+        $('#video').attr('src', link);
+    }
+});
+
+//este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
+$(document).delegate("#texto_page", "pageinit", function() {
+    print('url',url);
+    $('#div_texto').append(url);
 });
