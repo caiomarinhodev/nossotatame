@@ -8,6 +8,11 @@ var actual = 1;
 var total_pages = 0;
 var actual_category = 0;
 var url = "";
+var count_tecnicas = 0;
+var count_finalizacoes = 0;
+var count_quedas = 0;
+var count_passagem = 0;
+var count_raspagens = 0;
 
 //metodo para pegar url da home (geral).
 function get_url_geral(indice){
@@ -275,6 +280,8 @@ $(document).delegate("#inicio", "click", function(){
         $('#lista').empty();
         actual_category = new_category;
         get_content_home_server(new_page);
+        $.mobile.navigate('assistir.html');
+        $( "#left-panel" ).panel( "close" );
     }else{
         $( "#popup_alert" ).popup( "open" );
     }
@@ -289,6 +296,8 @@ $(document).delegate("#tecnicas", "click", function(){
         $('#lista').empty();
         actual_category = new_category;
         get_content_cat_tec_server(new_page);
+        $.mobile.navigate('assistir.html');
+        $( "#left-panel" ).panel( "close" );
     }else{
         $( "#popup_alert" ).popup( "open" );
     }
@@ -303,6 +312,8 @@ $(document).delegate("#finalizacoes", "click", function(){
         $('#lista').empty();
         actual_category = new_category;
         get_content_cat_server('finalizacoes', new_page);
+        $.mobile.navigate('assistir.html');
+        $( "#left-panel" ).panel( "close" );
     }else{
         $( "#popup_alert" ).popup( "open" );
     }
@@ -317,6 +328,8 @@ $(document).delegate("#quedas", "click", function(){
         $('#lista').empty();
         actual_category = new_category;
         get_content_cat_server('quedas', new_page);
+        $.mobile.navigate('assistir.html');
+        $( "#left-panel" ).panel( "close" );
     }else{
         $( "#popup_alert" ).popup( "open" );
     }
@@ -332,6 +345,8 @@ $(document).delegate("#passagem_de_guarda", "click", function(){
         $('#lista').empty();
         actual_category = new_category;
         get_content_cat_server('passagem-de-guarda', new_page);
+        $.mobile.navigate('assistir.html');
+        $( "#left-panel" ).panel( "close" );
     }else{
         $( "#popup_alert" ).popup( "open" );
     }
@@ -346,6 +361,8 @@ $(document).delegate("#raspagens", "click", function(){
         $('#lista').empty();
         actual_category = new_category;
         get_content_cat_server('raspagens', new_page);
+        $.mobile.navigate('assistir.html');
+        $( "#left-panel" ).panel( "close" );
     }else{
         $( "#popup_alert" ).popup( "open" );
     }
@@ -363,6 +380,51 @@ $( document ).delegate("#video_page", "pageinit", function() {
     if(link != "#?autoplay=1" && link != "#" && link != ""){
         $('#video').attr('src', link);
     }
+});
+
+function get_value_count_label(cat){
+    var resp = $.ajax({
+        type: 'GET',
+        dataType: 'jsonp',
+        url: get_url_categoria(cat,1),
+        success: function(response){
+            var total = parseInt(response.count)*parseInt(response.pages)
+            $('#count_'+cat).text(total);
+        },
+        error: function(){
+            $( "#popup_error" ).popup( "open" );
+        }
+    });
+}
+
+function get_value_count_for_tecnicas(){
+    var resp = $.ajax({
+        type: 'GET',
+        dataType: 'jsonp',
+        url: 'http://nossotatame.net/tecnicas/page/1/?json=1',
+        success: function(response){
+            var total = parseInt(response.count)*parseInt(response.pages)
+            $('#count_tecnicas').text(total);
+        },
+        error: function(){
+            $( "#popup_error" ).popup( "open" );
+        }
+    });
+}
+
+
+function inicializa_counts_var(){
+    get_value_count_label('finalizacoes');
+    get_value_count_for_tecnicas();
+    get_value_count_label('quedas');
+    get_value_count_label('passagem-de-guarda');
+    get_value_count_label('raspagens');
+    print('CARREGANDO COUNTS', "OK");
+}
+
+//este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
+$(document).delegate("#assistir", "pageinit", function() {
+    inicializa_counts_var();
 });
 
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
