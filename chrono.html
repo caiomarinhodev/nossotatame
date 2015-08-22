@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nosso Tatame</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+    <style>
+        img.displayed {
+            display: block;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+    </style>
+
+    <script src="js/scrip.js"></script>
+</head>
+<body>
+<div data-role="page" id="page_crono">
+
+    <div data-role="header">
+        <h1>Nosso Tatame</h1>
+        <a href="choose.html" data-role="button" data-icon="back" class="ui-btn-right">Voltar</a>
+    </div><!-- /header -->
+
+    <!-- container_home -->
+    <div data-role="content" id="startScreen_container_home" name="container_home" class="startScreen_container_home ui-content"
+         dsid="container_home" data-theme="b">
+
+        <div class="ui-grid-a" style="margin-bottom: 0px;height: 40px;">
+            <div class="ui-block-a">
+                <center><h4 style="color: #fff;">Lutador 1</h4></center>
+            </div>
+            <div class="ui-block-b">
+                <center><h4 style="color: #fff;">Lutador 2</h4></center>
+            </div>
+        </div><!-- /grid-a -->
+        <!-- grade -->
+        <div class="startScreen_grade_wrapper" data-wrapper-for="grade">
+            <table id="startScreen_grade" class="startScreen_grade" dsid="grade" name="grade"
+                   cellpadding=0 cellspacing=0 style="margin: 0px 0px 0px 0px;">
+                <col style="width:auto;" />
+                <col style="width:auto;" />
+                <tr class="startScreen_grade_row_0">
+                    <!-- g1 -->
+                    <td id="startScreen_g1" name="g1" class="startScreen_g1" colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- grade_p1 -->
+                            <div class="startScreen_grade_p1_wrapper" data-wrapper-for="grade_p1">
+                                <table id="startScreen_grade_p1" class="startScreen_grade_p1" dsid="grade_p1" name="grade_p1"
+                                       cellpadding=0 cellspacing=0>
+                                    <col style="width:52px;" />
+                                    <col style="width:auto;" />
+                                    <tr class="startScreen_grade_p1_row_0">
+                                        <!-- mobilegridcell_41 -->
+                                        <td id="startScreen_mobilegridcell_41" name="mobilegridcell_41" class="startScreen_mobilegridcell_41"
+                                            colspan=1 rowspan=1>
+                                            <div class="cell-wrapper">
+                                                <!-- mobilegrid_45 -->
+                                                <div class="startScreen_mobilegrid_45_wrapper" data-wrapper-for="mobilegrid_45">
+                                                    <table id="startScreen_mobilegrid_45" class="startScreen_mobilegrid_45" dsid="mobilegrid_45"
+                                                           name="mobilegrid_45" cellpadding=0 cellspacing=0>
+                                                        <col style="width:43px;" />
+                                                        <tr class="startScreen_mobilegrid_45_row_0">
+                                                            <!-- mobilegridcell_46 -->
+                                                            <td id="startScreen_mobilegridcell_46" name="mobilegridcell_46" class="startScreen_mobilegridcell_46"
+                                                                colspan=1 rowspan=1>
+                                                                <div class="cell-wrapper">
+                                                                    <!-- up_1 -->
+                                                                    <img class="startScreen_up_1" src="img/arrow-up-20.png" id="startScreen_up_1"
+                                                                         dsid="up_1" name="up_1" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="startScreen_mobilegrid_45_row_1">
+                                                            <!-- mobilegridcell_50 -->
+                                                            <td id="startScreen_mobilegridcell_50" name="mobilegridcell_50" class="startScreen_mobilegridcell_50"
+                                                                colspan=1 rowspan=1>
+                                                                <div class="cell-wrapper">
+                                                                    <!-- down_1 -->
+                                                                    <img class="startScreen_down_1" src="img/arrow-down-20.png"
+                                                                         id="startScreen_down_1" dsid="down_1" name="down_1" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- mobilegridcell_42 -->
+                                        <td id="startScreen_mobilegridcell_42" name="mobilegridcell_42" class="startScreen_mobilegridcell_42"
+                                            colspan=1 rowspan=1>
+                                            <div class="cell-wrapper">
+                                                <!-- pts_1 -->
+                                                <div name="pts_1" id="startScreen_pts_1" dsid="pts_1" data-role="appery_label" class="startScreen_pts_1"
+                                                        style="color:#fff;">
+                                                    99
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- g2 -->
+                    <td id="startScreen_g2" name="g2" class="startScreen_g2" colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- mobilegrid_51 -->
+                            <div class="startScreen_mobilegrid_51_wrapper" data-wrapper-for="mobilegrid_51">
+                                <table id="startScreen_mobilegrid_51" class="startScreen_mobilegrid_51" dsid="mobilegrid_51"
+                                       name="mobilegrid_51" cellpadding=0 cellspacing=0 style="margin: 0px 0px 0px 0px;">
+                                    <col style="width:auto;" />
+                                    <col style="width:52px;" />
+                                    <tr class="startScreen_mobilegrid_51_row_0">
+                                        <!-- mobilegridcell_52 -->
+                                        <td id="startScreen_mobilegridcell_52" name="mobilegridcell_52" class="startScreen_mobilegridcell_52"
+                                            colspan=1 rowspan=1>
+                                            <div class="cell-wrapper">
+                                                <!-- pts_2 -->
+                                                <div name="pts_2" id="startScreen_pts_2" dsid="pts_2" data-role="appery_label" class="startScreen_pts_2"
+                                                        style="text-align: right;margin-right: 12px;color:#fff; ">
+                                                    99
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- mobilegridcell_53 -->
+                                        <td id="startScreen_mobilegridcell_53" name="mobilegridcell_53" class="startScreen_mobilegridcell_53"
+                                            colspan=1 rowspan=1>
+                                            <div class="cell-wrapper">
+                                                <!-- mobilegrid_56 -->
+                                                <div class="startScreen_mobilegrid_56_wrapper" data-wrapper-for="mobilegrid_56">
+                                                    <table id="startScreen_mobilegrid_56" class="startScreen_mobilegrid_56" dsid="mobilegrid_56"
+                                                           name="mobilegrid_56" cellpadding=0 cellspacing=0>
+                                                        <col style="width:auto;" />
+                                                        <tr class="startScreen_mobilegrid_56_row_0">
+                                                            <!-- mobilegridcell_57 -->
+                                                            <td id="startScreen_mobilegridcell_57" name="mobilegridcell_57" class="startScreen_mobilegridcell_57"
+                                                                colspan=1 rowspan=1>
+                                                                <div class="cell-wrapper">
+                                                                    <!-- up_2 -->
+                                                                    <img class="startScreen_up_2" src="img/arrow-up-20.png" id="startScreen_up_2"
+                                                                         dsid="up_2" name="up_2" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="startScreen_mobilegrid_56_row_1">
+                                                            <!-- mobilegridcell_59 -->
+                                                            <td id="startScreen_mobilegridcell_59" name="mobilegridcell_59" class="startScreen_mobilegridcell_59"
+                                                                colspan=1 rowspan=1>
+                                                                <div class="cell-wrapper">
+                                                                    <!-- down_2 -->
+                                                                    <img class="startScreen_down_2" src="img/arrow-down-20.png"
+                                                                         id="startScreen_down_2" dsid="down_2" name="down_2" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- mobilegrid_68 -->
+        <div class="startScreen_mobilegrid_68_wrapper" data-wrapper-for="mobilegrid_68">
+            <table id="startScreen_mobilegrid_68" class="startScreen_mobilegrid_68" dsid="mobilegrid_68"
+                   name="mobilegrid_68" cellpadding=0 cellspacing=0 style="margin: 0px 0px 0px 0px;">
+                <col style="width:auto;" />
+                <col style="width:auto;" />
+                <tr class="startScreen_mobilegrid_68_row_0">
+                    <!-- mobilegridcell_69 -->
+                    <td id="startScreen_mobilegridcell_69" name="mobilegridcell_69" class="startScreen_mobilegridcell_69"
+                        colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- adv_1 -->
+                            <div name="adv_1" id="startScreen_adv_1" dsid="adv_1" data-role="appery_label" class="startScreen_adv_1"
+                                    style="color:#fff;">
+                                0
+                            </div>
+                        </div>
+                    </td>
+                    <!-- mobilegridcell_70 -->
+                    <td id="startScreen_mobilegridcell_70" name="mobilegridcell_70" class="startScreen_mobilegridcell_70"
+                        colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- adv_2 -->
+                            <div name="adv_2" id="startScreen_adv_2" dsid="adv_2" data-role="appery_label" class="startScreen_adv_2"
+                                 style="color:#fff;">
+                                0
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="startScreen_mobilegrid_68_row_1">
+                    <!-- mobilegridcell_73 -->
+                    <td id="startScreen_mobilegridcell_73" name="mobilegridcell_73" class="startScreen_mobilegridcell_73"
+                        colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- mobilelabel_75 -->
+                            <div name="mobilelabel_75" id="startScreen_mobilelabel_75" dsid="mobilelabel_75"
+                                 data-role="appery_label" class="startScreen_mobilelabel_75">
+                                ADV
+                            </div>
+                        </div>
+                    </td>
+                    <!-- mobilegridcell_74 -->
+                    <td id="startScreen_mobilegridcell_74" name="mobilegridcell_74" class="startScreen_mobilegridcell_74"
+                        colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- mobilelabel_76 -->
+                            <div name="mobilelabel_76" id="startScreen_mobilelabel_76" dsid="mobilelabel_76"
+                                 data-role="appery_label" class="startScreen_mobilelabel_76">
+                                ADV
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- mobilegrid_79 -->
+        <div class="startScreen_mobilegrid_79_wrapper" data-wrapper-for="mobilegrid_79">
+            <table id="startScreen_mobilegrid_79" class="startScreen_mobilegrid_79" dsid="mobilegrid_79"
+                   name="mobilegrid_79" cellpadding=0 cellspacing=0>
+                <col style="width:auto;" />
+                <col style="width:auto;" />
+                <tr class="startScreen_mobilegrid_79_row_0">
+                    <!-- mobilegridcell_80 -->
+                    <td id="startScreen_mobilegridcell_80" name="mobilegridcell_80" class="startScreen_mobilegridcell_80"
+                        colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- mobilelabel_86 -->
+                            <div name="mobilelabel_86" id="startScreen_mobilelabel_86" dsid="mobilelabel_86"
+                                 data-role="appery_label" class="startScreen_mobilelabel_86" style="color:#fff;">
+                                0
+                            </div>
+                        </div>
+                    </td>
+                    <!-- mobilegridcell_81 -->
+                    <td id="startScreen_mobilegridcell_81" name="mobilegridcell_81" class="startScreen_mobilegridcell_81"
+                        colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- mobilelabel_87 -->
+                            <div name="mobilelabel_87" id="startScreen_mobilelabel_87" dsid="mobilelabel_87"
+                                 data-role="appery_label" class="startScreen_mobilelabel_87" style="color:#fff;">
+                                0
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="startScreen_mobilegrid_79_row_1">
+                    <!-- mobilegridcell_82 -->
+                    <td id="startScreen_mobilegridcell_82" name="mobilegridcell_82" class="startScreen_mobilegridcell_82"
+                        colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- mobilelabel_84 -->
+                            <div name="mobilelabel_84" id="startScreen_mobilelabel_84" dsid="mobilelabel_84"
+                                 data-role="appery_label" class="startScreen_mobilelabel_84">
+                                PEN
+                            </div>
+                        </div>
+                    </td>
+                    <!-- mobilegridcell_83 -->
+                    <td id="startScreen_mobilegridcell_83" name="mobilegridcell_83" class="startScreen_mobilegridcell_83"
+                        colspan=1 rowspan=1>
+                        <div class="cell-wrapper">
+                            <!-- mobilelabel_85 -->
+                            <div name="mobilelabel_85" id="startScreen_mobilelabel_85" dsid="mobilelabel_85"
+                                 data-role="appery_label" class="startScreen_mobilelabel_85">
+                                PEN
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- mobilegrid_88 -->
+    </div>
+
+    <div data-role="footer" data-position="fixed" style="height: 90px">
+        <center><h1 style="font-size: 60px;margin: 5px 5px 5px 5px;">00:00</h1></center>
+    </div>
+
+</div>
+
+
+</body>
+</html>
