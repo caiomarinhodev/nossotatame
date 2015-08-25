@@ -19,12 +19,8 @@
     <script src="js/scrip.js"></script>
 </head>
 <body>
-<div data-role="page" id="page_crono">
+<div data-role="page" id="page_chronometer">
 
-    <div data-role="header">
-        <h1>Nosso Tatame</h1>
-        <a href="choose.html" data-role="button" data-icon="back" class="ui-btn-right">Voltar</a>
-    </div><!-- /header -->
 
     <!-- container_home -->
     <div data-role="content" id="startScreen_container_home" name="container_home" class="startScreen_container_home ui-content"
@@ -32,12 +28,13 @@
 
         <div class="ui-grid-a" style="margin-bottom: 0px;height: 40px;">
             <div class="ui-block-a">
-                <center><h4 style="color: #fff;">Lutador 1</h4></center>
+                <center><h4 style="color: #fff;" id="player_name_1">Lutador 1</h4></center>
             </div>
             <div class="ui-block-b">
-                <center><h4 style="color: #fff;">Lutador 2</h4></center>
+                <center><h4 style="color: #fff;" id="player_name_2">Lutador 2</h4></center>
             </div>
         </div><!-- /grid-a -->
+        <link href="css/chrono.css" rel="stylesheet" type="text/css" />
         <!-- grade -->
         <div class="startScreen_grade_wrapper" data-wrapper-for="grade">
             <table id="startScreen_grade" class="startScreen_grade" dsid="grade" name="grade"
@@ -95,9 +92,9 @@
                                             colspan=1 rowspan=1>
                                             <div class="cell-wrapper">
                                                 <!-- pts_1 -->
-                                                <div name="pts_1" id="startScreen_pts_1" dsid="pts_1" data-role="appery_label" class="startScreen_pts_1"
+                                                <div name="pts_1" id="player_pts_1" dsid="pts_1" data-role="appery_label" class="startScreen_pts_1"
                                                         style="color:#fff;">
-                                                    99
+                                                    0
                                                 </div>
                                             </div>
                                         </td>
@@ -121,9 +118,9 @@
                                             colspan=1 rowspan=1>
                                             <div class="cell-wrapper">
                                                 <!-- pts_2 -->
-                                                <div name="pts_2" id="startScreen_pts_2" dsid="pts_2" data-role="appery_label" class="startScreen_pts_2"
+                                                <div name="pts_2" id="player_pts_2" dsid="pts_2" data-role="appery_label" class="startScreen_pts_2"
                                                         style="text-align: right;margin-right: 12px;color:#fff; ">
-                                                    99
+                                                    0
                                                 </div>
                                             </div>
                                         </td>
@@ -238,7 +235,7 @@
                         colspan=1 rowspan=1>
                         <div class="cell-wrapper">
                             <!-- mobilelabel_86 -->
-                            <div name="mobilelabel_86" id="startScreen_mobilelabel_86" dsid="mobilelabel_86"
+                            <div name="mobilelabel_86" id="startScreen_pen_1" dsid="pen_1"
                                  data-role="appery_label" class="startScreen_mobilelabel_86" style="color:#fff;">
                                 0
                             </div>
@@ -249,7 +246,7 @@
                         colspan=1 rowspan=1>
                         <div class="cell-wrapper">
                             <!-- mobilelabel_87 -->
-                            <div name="mobilelabel_87" id="startScreen_mobilelabel_87" dsid="mobilelabel_87"
+                            <div name="mobilelabel_87" id="startScreen_pen_2" dsid="pen_2"
                                  data-role="appery_label" class="startScreen_mobilelabel_87" style="color:#fff;">
                                 0
                             </div>
@@ -283,11 +280,26 @@
             </table>
         </div>
         <!-- mobilegrid_88 -->
+
+        <div data-role="popup" id="popup_fim">
+            <p>A Luta terminou !</p>
+        </div> <!-- popup -->
     </div>
 
     <div data-role="footer" data-position="fixed" style="height: 90px">
-        <center><h1 style="font-size: 60px;margin: 5px 5px 5px 5px;">00:00</h1></center>
+        <div class="ui-grid-a" style="height: 35px;">
+            <div class="ui-block-a" style="text-align: right; padding: 1px 10px 0px 1px;"><img class="play" src="img/play.png"></div>
+            <div class="ui-block-b" style="padding: 1px 1px 0px 10px;"><img class="pause" src="img/pause.png"></div>
+        </div><!-- /grid-a -->
+        <div class="ui-grid-solo">
+            <center><h1 class="time" style="font-size: 50px;margin: 0px 5px 5px 5px;">00:00</h1></center>
+        </div><!-- /grid-a -->
     </div>
+
+    <audio style="display:none" controls="controls" id="audio">
+        Seu celular nao suporta o elemento de áudio.
+        <source src="apitodefutebol.mp3" type="audio/mp3">
+    </audio>
 
 </div>
 

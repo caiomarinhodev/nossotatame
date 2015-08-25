@@ -14,6 +14,20 @@ var count_quedas = 0;
 var count_passagem = 0;
 var count_raspagens = 0;
 
+//definicao de variaveis para o cronometro
+var startValue = 120000; //Number of milliseconds
+var time = new Date(startValue);
+var interv;
+var lutador1 = "";
+var lutador2 = "";
+var pontos_lutador1 = 0;
+var pontos_lutador2 = 0;
+var adv_lutador1 = 0;
+var adv_lutador2 = 0;
+var pen_lutador1 = 0;
+var pen_lutador2 = 0;
+
+
 //metodo para pegar url da home (geral).
 function get_url_geral(indice){
     var url ='http://nossotatame.net/page/'+indice+'/?json=1';
@@ -397,6 +411,8 @@ function get_value_count_label(cat){
     });
 }
 
+
+//esta funcap pega o numero de tecnicas existentes e exibe no menu panel.
 function get_value_count_for_tecnicas(){
     var resp = $.ajax({
         type: 'GET',
@@ -412,7 +428,7 @@ function get_value_count_for_tecnicas(){
     });
 }
 
-
+//esta funcao inicializa o numero para cada item existente no menu panel.
 function inicializa_counts_var(){
     get_value_count_label('finalizacoes');
     get_value_count_for_tecnicas();
@@ -432,3 +448,206 @@ $(document).delegate("#texto_page", "pageinit", function() {
     print('url',url);
     $('#div_texto').append(url);
 });
+
+
+
+//esta funcao verifica de os nomes passados nao sao vazios.
+function verifica_nomes(nome1, nome2){
+    if(nome1!="" && nome2!=""){
+        if(nome1!=" " && nome2!=" "){
+            return true;
+        }
+    }
+    return false;
+}
+
+//esta funcao faz o apito final.
+function apitar_fim(){
+    //alert("Acabou a Luta!");
+    $('#audio').trigger('play');
+    $('#popup_fim').popup('open');
+}
+
+//esta funcao display o tempo.
+function displayTime(){
+    $(".time").text(fillZeroes(time.getMinutes()) + ":" + fillZeroes(time.getSeconds()));
+}
+
+//esta funcao insere ou remove os zeros.
+function fillZeroes(t){
+    t = t+"";
+    if(t.length==1)
+        return "0" + t;
+    else
+        return t;
+}
+
+//esta funcao display o nome de algum lutador.
+function displayNamePlayer(i, name){
+    $('#player_name_'+i).text(name);
+}
+
+//esta funcao seta a variavel dos nomes do lutadores.
+function setNamePlayers(name1,name2){
+    lutador1 = name1;
+    lutador2 = name2;
+}
+
+//esta funcao reinicia as variaveis do cronometro.
+function reinicia_variaveis_cronometro(){
+    pontos_lutador1 = 0;
+    pontos_lutador2 = 0;
+    adv_lutador1 = 0;
+    adv_lutador2 = 0;
+    pen_lutador1 = 0;
+    pen_lutador2 = 0;
+}
+
+//este metodo delega para quando iniciar a pagina de escolha do tempo de luta, eu reinicie as variaveis do cronometro,
+//set o nome dos lutadores e defina o tempo de luta. nos clicks de cada tempo determinado.
+$(document).delegate("#page_choose", "pageinit", function(){
+    $('#submit_5').on('click', function(){
+        reinicia_variaveis_cronometro();
+        var lut1 = $('#player_1_5').val();
+        var lut2 = $('#player_2_5').val();
+        setNamePlayers(lut1,lut2);
+        startValue = 300000;
+        time = new Date(startValue);
+        if(verifica_nomes(lut1,lut2)){
+            $.mobile.navigate('chrono.html');
+        }else{
+            alert("Nomes Invalidos!")
+        }
+    });
+    $('#submit_6').on('click', function(){
+        reinicia_variaveis_cronometro();
+        var lut1 = $('#player_1_6').val();
+        var lut2 = $('#player_2_6').val();
+        setNamePlayers(lut1,lut2);
+        startValue = 360000;
+        time = new Date(startValue);
+        if(verifica_nomes(lut1,lut2)){
+            $.mobile.navigate('chrono.html');
+        }else{
+            alert("Nomes Invalidos!")
+        }
+    });
+    $('#submit_8').on('click', function(){
+        reinicia_variaveis_cronometro();
+        var lut1 = $('#player_1_8').val();
+        var lut2 = $('#player_2_8').val();
+        setNamePlayers(lut1,lut2);
+        startValue = 480000;
+        time = new Date(startValue);
+        if(verifica_nomes(lut1,lut2)){
+            $.mobile.navigate('chrono.html');
+        }else{
+            alert("Nomes Invalidos!")
+        }
+    });
+    $('#submit_10').on('click', function(){
+        reinicia_variaveis_cronometro();
+        var lut1 = $('#player_1_10').val();
+        var lut2 = $('#player_2_10').val();
+        setNamePlayers(lut1,lut2);
+        startValue = 600000;
+        time = new Date(startValue);
+        if(verifica_nomes(lut1,lut2)){
+            $.mobile.navigate('chrono.html');
+        }else{
+            alert("Nomes Invalidos!")
+        }
+    });
+});
+
+//este metodo delega para quando iniciar a pagina de cronometro, limpe o tempo pause-o.
+//e determina os eventos de tap para cada item na tela (up's,down's,adv e pen)(play e pause).
+$(document).delegate("#page_chronometer", "pageinit", function(){
+
+    //falta setar ids na pagina de chronometro e resetar variaveis.
+    clearInterval(interv);
+    displayTime();
+    displayNamePlayer(1, lutador1);
+    displayNamePlayer(2, lutador2);
+    $(".play").on("tap", function(){
+        interv = setInterval(function(){
+            time = new Date(time - 1000);
+            if(time<=0){
+                apitar_fim();
+                clearInterval(interv);
+            }
+            displayTime();
+        }, 1000);
+    });
+    $(".pause").on("tap", function(){
+        clearInterval(interv);
+    });
+
+    $('#startScreen_up_1').on('tap', function(){
+        if(pontos_lutador1 >= 0){
+            pontos_lutador1 = pontos_lutador1 + 1;
+            set_pontos_lutador_display(1, pontos_lutador1);
+        }
+    });
+
+
+    $('#startScreen_down_1').on('tap', function(){
+        if(pontos_lutador1 > 0){
+            pontos_lutador1 = pontos_lutador1 - 1;
+            set_pontos_lutador_display(1, pontos_lutador1);
+        }
+    });
+
+
+    $('#startScreen_up_2').on('tap', function(){
+        if(pontos_lutador2 >= 0){
+            pontos_lutador2 = pontos_lutador2 + 1;
+            set_pontos_lutador_display(2, pontos_lutador2);
+        }
+    });
+
+
+    $('#startScreen_down_2').on('tap', function(){
+        if(pontos_lutador2 > 0){
+            pontos_lutador2 = pontos_lutador2 - 1;
+            set_pontos_lutador_display(2, pontos_lutador2);
+        }
+    });
+
+
+    $('#startScreen_adv_1').on('tap', function(){
+        adv_lutador1 = adv_lutador1+1;
+        set_adv_lutador_display(1, adv_lutador1);
+    });
+
+    $('#startScreen_adv_2').on('tap', function(){
+        adv_lutador2 = adv_lutador2+1;
+        set_adv_lutador_display(2, adv_lutador2);
+    });
+
+
+    $('#startScreen_pen_1').on('tap', function(){
+        pen_lutador1 = pen_lutador1+1;
+        set_pen_lutador_display(1, pen_lutador1);
+    });
+
+    $('#startScreen_pen_2').on('tap', function(){
+        pen_lutador2 = pen_lutador2+1;
+        set_pen_lutador_display(2, pen_lutador2);
+    });
+});
+
+//esta funcao seta o pontos do lutador no display.
+function set_pontos_lutador_display(i, value){
+    $('#player_pts_'+i).text(value);
+}
+
+//esta funcao set as advertencias do lutador no display.
+function set_adv_lutador_display(i, value){
+    $('#startScreen_adv_'+i).text(value);
+}
+
+//esta funcao set as penalidades do lutador no display.
+function set_pen_lutador_display(i,value){
+    $('#startScreen_pen_'+i).text(value);
+}
