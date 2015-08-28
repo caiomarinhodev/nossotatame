@@ -1,27 +1,62 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.nossotatame" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.cordova.nossotatame" version="1.6.2" xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <name>Nosso Tatame</name>
     <description>
-        Assista técnicas, veja lutas e marque sua pontuação e cronometre suas lutas de Jiu-Jitsu agora! Baixe agora e entre no magnífico mundo do Jiu-Jitsu você também!
+        Assista técnicas, veja lutas e marque sua pontuação e cronometre suas lutas de Jiu-Jitsu agora! Baixe agora e
+        entre no magnífico mundo do Jiu-Jitsu você também!
     </description>
     <author email="caiodotdev@gmail.com" href="http://www.caiomarinho.com">
         Caio Marinho
     </author>
-    <icon src="img/logo.jpg" />
-    <content src="index.html" />
-    <plugin name="cordova-plugin-whitelist" version="1" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
+    <!-- Icones -->
+    <icon src="img/logo.jpg"/>
+    <!-- iPhone 6 / 6+ -->
+    <icon src="icon-60@3x.png" gap:platform="ios" width="180" height="180" />
+    <!-- iPhone / iPod Touch  -->
+    <icon src="icon-60.png" gap:platform="ios" width="60" height="60" />
+    <icon src="icon-60@2x.png" gap:platform="ios" width="120" height="120" />
+    <!-- iPad -->
+    <icon src="icon-76.png" gap:platform="ios" width="76" height="76" />
+    <icon src="icon-76@2x.png" gap:platform="ios" width="152" height="152" />
+    <!-- Settings Icon -->
+    <icon src="icon-small.png" gap:platform="ios" width="29" height="29" />
+    <icon src="icon-small@2x.png" gap:platform="ios" width="58" height="58" />
+    <!-- Spotlight Icon -->
+    <icon src="icon-40.png" gap:platform="ios" width="40" height="40" />
+    <icon src="icon-40@2x.png" gap:platform="ios" width="80" height="80" />
+    <!-- Android -->
+    <icon src="ldpi.png" gap:platform="android" gap:qualifier="ldpi" />
+    <icon src="mdpi.png" gap:platform="android" gap:qualifier="mdpi" />
+    <icon src="hdpi.png" gap:platform="android" gap:qualifier="hdpi" />
+    <icon src="xhdpi.png" gap:platform="android" gap:qualifier="xhdpi" />
+    <icon src="xxhdpi.png" gap:platform="android" gap:qualifier="xxhdpi" />
+    <!-- WIN PHONE  -->
+    <icon src="icon.png" gap:platform="winphone" />
+    <icon src="tileicon.png" gap:platform="winphone" gap:role="background" />
+    <!-- Preferences -->
+    <preference name="orientation" value="portrait"/>
+    <supports-screens android:anyDensity="true" android:resizeable="true"
+                      android:smallScreens="true"
+                      android:normalScreens="true"
+                      android:largeScreens="true"
+                      android:xlargeScreens="true" />
+
+    <content src="index.html"/>
+    <plugin name="cordova-plugin-whitelist" version="1"/>
+    <access origin="*"/>
+    <allow-intent href="http://*/*"/>
+    <allow-intent href="https://*/*"/>
+    <allow-intent href="tel:*"/>
+    <allow-intent href="sms:*"/>
+    <allow-intent href="mailto:*"/>
+    <allow-intent href="geo:*"/>
     <platform name="android">
-        <allow-intent href="market:*" />
+        <allow-intent href="market:*"/>
     </platform>
     <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
+        <allow-intent href="itms:*"/>
+        <allow-intent href="itms-apps:*"/>
     </platform>
 </widget>
