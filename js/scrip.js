@@ -3,8 +3,8 @@
  */
 
 // Definicao de variaveis de ambiente global.
-var anterior = 0;
-var actual = 1;
+var anterior = 1;
+var actual = 2;
 var total_pages = 0;
 var actual_category = 0;
 var url = "";
@@ -187,10 +187,13 @@ function get_source_video(content){
         var init = content.indexOf('<iframe src=');
         var finish = content.indexOf('</iframe>');
         var iframe = content.substring(init,finish+9);
+        print('iframe', iframe);
         var iframe_init = iframe.indexOf('src=');
         var iframe_finish = iframe.indexOf(' height=');
         var link = iframe.substring(iframe_init+5, iframe_finish-1);
+        link = 'http:'+link;
         url = link;
+        print('LINK', link);
         return true;
     }else{
         var wi = ($(document).width()) - 30;
