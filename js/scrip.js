@@ -53,11 +53,6 @@ function get_content_home_server(page){
                 enable_anterior(actual);
                 var lista = $('#lista');
                 var posts = response.posts;
-                print('total_pages', total_pages);
-                print('actual_category', actual_category);
-                print('anterior', anterior);
-                print('actual', actual);
-                print('posts',posts);
                 posts.forEach(function(post) {
                     add_item_in_list(post.id, post.title,
                         post.thumbnail, post.date,post.content,
@@ -85,11 +80,6 @@ function get_content_cat_tec_server(page){
             enable_anterior(actual);
             var lista = $('#lista');
             var posts = response.posts;
-            print('total_pages', total_pages);
-            print('actual_category', actual_category);
-            print('anterior', anterior);
-            print('actual', actual);
-            print('posts',posts);
             posts.forEach(function(post) {
                 add_item_in_list(post.id, post.title,
                     post.thumbnail, post.date,post.content,
@@ -117,11 +107,6 @@ function get_content_cat_server(cat, page){
             enable_anterior(actual);
             var lista = $('#lista');
             var posts = response.posts;
-            print('total_pages', total_pages);
-            print('actual_category', actual_category);
-            print('anterior', anterior);
-            print('actual', actual);
-            print('posts',posts);
             posts.forEach(function(post) {
                 add_item_in_list(post.id, post.title,
                     post.thumbnail, post.date,post.content,
@@ -155,9 +140,10 @@ function add_item_in_list(id, title,
     var lista = $('#lista');
     var item = "<li id='"+id+"'>" +
         "<a href='#' class='itemizer'>" +
+
+        "<img src='"+thumb+"' class='' style='margin: 2px 2px 0px 0px' width='100' height='100'>" +
         "<input type='hidden' class='conteudo' " +
         "value='"+content+"'>" +
-        "<img src='"+thumb+"'>" +
         "<h2>"+title+"</h2>" +
         "<p>"+excerpt+"</p>" +
         "<h6> Categoria: "+category+"</h6>" +
@@ -198,22 +184,17 @@ function exist_video(content){
 //metodo pega apenas o url ou  conteudo para incluir no source da pagina de video ou pagina de texto.
 function get_source_video(content){
     if(exist_video(content)){
-        print('content', content);
         var init = content.indexOf('<iframe src=');
         var finish = content.indexOf('</iframe>');
         var iframe = content.substring(init,finish+9);
-        print('iframe', iframe);
         var iframe_init = iframe.indexOf('src=');
         var iframe_finish = iframe.indexOf(' height=');
         var link = iframe.substring(iframe_init+5, iframe_finish-1);
-        print('link',link);
         url = link;
         return true;
     }else{
-        print('content', content);
         var wi = ($(document).width()) - 30;
         var new_content = content.replace(/\bwidth="(\d+)"/g, "width= "+wi+"px");
-        print('content', new_content);
         url = new_content;
         return false;
     }
@@ -390,7 +371,6 @@ $( document ).delegate("#video_page", "pageinit", function() {
     var wi = ($(document).width()) - 30;
     $('#video').attr('width', '' + wi);
     var link = url+"?autoplay=1";
-    print('link',link);
     if(link != "#?autoplay=1" && link != "#" && link != ""){
         $('#video').attr('src', link);
     }
@@ -435,17 +415,15 @@ function inicializa_counts_var(){
     get_value_count_label('quedas');
     get_value_count_label('passagem-de-guarda');
     get_value_count_label('raspagens');
-    print('CARREGANDO COUNTS', "OK");
 }
 
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
 $(document).delegate("#assistir", "pageinit", function() {
-    inicializa_counts_var();
+    //inicializa_counts_var();
 });
 
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
 $(document).delegate("#texto_page", "pageinit", function() {
-    print('url',url);
     $('#div_texto').append(url);
 });
 
@@ -617,11 +595,13 @@ $(document).delegate("#page_chronometer", "pageinit", function(){
 
     $('#startScreen_adv_1').on('tap', function(){
         adv_lutador1 = adv_lutador1+1;
+        verifica_advertencia(1);
         set_adv_lutador_display(1, adv_lutador1);
     });
 
     $('#startScreen_adv_2').on('tap', function(){
         adv_lutador2 = adv_lutador2+1;
+        verifica_advertencia(2);
         set_adv_lutador_display(2, adv_lutador2);
     });
 
@@ -650,4 +630,23 @@ function set_adv_lutador_display(i, value){
 //esta funcao set as penalidades do lutador no display.
 function set_pen_lutador_display(i,value){
     $('#startScreen_pen_'+i).text(value);
+}
+
+//esta funcao verifica as advertencias de cada lutador e
+function verifica_advertencia(i){
+    if(i==1){
+        if(adv_lutador1 != 0){
+            if(adv_lutador1 % 3 == 0){
+                pontos_lutador2 = pontos_lutador2 + 2;
+                set_pontos_lutador_display(2, pontos_lutador2);
+            }
+        }
+    }else{
+        if(adv_lutador2 != 0){
+            if(adv_lutador2 % 3 == 0){
+                pontos_lutador1 = pontos_lutador1 + 2;
+                set_pontos_lutador_display(1, pontos_lutador1);
+            }
+        }
+    }
 }

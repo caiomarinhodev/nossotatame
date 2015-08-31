@@ -12,7 +12,7 @@
 
 <div data-role="page" id="assistir">
 
-    <div data-role="header">
+    <div data-role="header" id="assistir_header">
         <a href="#left-panel" data-role="button" data-icon="bars"
             data-shadow="false"
            data-iconshadow="false" class="ui-btn-left"
@@ -24,19 +24,20 @@
     </div>
     <!-- /header -->
 
-    <div data-role="panel" data-display="overlay" id="left-panel">
+    <div data-role="panel" data-display="reveal" id="left-panel">
         <ul data-role="listview">
+            <li data-role="list-divider" data-theme="a"><center>MENU</center></li>
             <li data-icon="home"><a href="#" id="inicio">Início</a></li>
-            <li><a href="#" id="tecnicas">Técnicas <span id="count_tecnicas" class="ui-li-count">450</span></a></li>
-            <li><a href="#" id="finalizacoes">Finalizações <span id="count_finalizacoes" class="ui-li-count">4</span></a></li>
-            <li><a href="#" id="quedas">Quedas <span id="count_quedas" class="ui-li-count">328</span></a></li>
+            <li><a href="#" id="tecnicas">Técnicas <span id="count_tecnicas" class="ui-li-count">710</span></a></li>
+            <li><a href="#" id="finalizacoes">Finalizações <span id="count_finalizacoes" class="ui-li-count">340</span></a></li>
+            <li><a href="#" id="quedas">Quedas <span id="count_quedas" class="ui-li-count">30</span></a></li>
             <li><a href="#" id="passagem_de_guarda">Passagem de Guarda <span id="count_passagem" class="ui-li-count">62</span></a></li>
-            <li><a href="#" id="raspagens">Raspagens <span id="count_raspagens" class="ui-li-count">30</span></a></li>
+            <li><a href="#" id="raspagens">Raspagens <span id="count_raspagens" class="ui-li-count">130</span></a></li>
         </ul>
     </div>
     <!-- /panel -->
 
-    <div data-role="content">
+    <div data-role="content" id="assistir_content">
 
         <div data-role="popup" id="popup_error">
             <p>Erro de conexão!</p>
