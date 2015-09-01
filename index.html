@@ -62,15 +62,13 @@
         <img src="img/200.png" class="displayed"/>
         <br/>
         <br/>
-        <a href="assistir.html" data-role="button" style="margin-top: 50px;" data-theme="c">Assistir técnicas</a>
-        <a href="choose.html" data-role="button" data-theme="c">Cronometrar lutas</a>
-        <a data-role="button" onclick="app.startBannerAds()">Start Banner Ads</a>
+        <a href="assistir.html" data-role="button" style="margin-top: 50px;" data-theme="c" onclick="app.requestInterstitial(true)">Assistir técnicas</a>
+        <a href="choose.html" data-role="button" data-theme="c" onclick="app.startBannerAds()">Cronometrar lutas</a>
     </div><!-- /content -->
 
     <div data-role="footer" data-position="fixed">
         <h4>&copy; Nosso Tatame</h4>
     </div><!-- /footer -->
 </div><!-- /page -->
-
 </body>
 </html>

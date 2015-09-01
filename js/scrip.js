@@ -139,7 +139,7 @@ function add_item_in_list(id, title,
                           category, excerpt){
     var lista = $('#lista');
     var item = "<li id='"+id+"'>" +
-        "<a href='#' class='itemizer'>" +
+        "<a href='#' class='itemizer' onclick='app.showBannerAds()'>" +
 
         "<img src='"+thumb+"' class='' style='margin: 2px 2px 0px 0px' width='100' height='100'>" +
         "<input type='hidden' class='conteudo' " +
@@ -423,6 +423,7 @@ function inicializa_counts_var(){
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
 $(document).delegate("#assistir", "pageinit", function() {
     //inicializa_counts_var();
+    app.showInterstitial()
 });
 
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
@@ -544,7 +545,6 @@ $(document).delegate("#page_choose", "pageinit", function(){
 //este metodo delega para quando iniciar a pagina de cronometro, limpe o tempo pause-o.
 //e determina os eventos de tap para cada item na tela (up's,down's,adv e pen)(play e pause).
 $(document).delegate("#page_chronometer", "pageinit", function(){
-
     //falta setar ids na pagina de chronometro e resetar variaveis.
     clearInterval(interv);
     displayTime();
@@ -734,7 +734,7 @@ var app = {
             },
             android : {
                 banner: 'ca-app-pub-9863325511078756/9802347428',
-                interstitial: 'ca-app-pub-9863325511078756/2279080628'
+                interstitial: 'ca-app-pub-1014212550826254/9229586726'
             }
         };
 
@@ -748,7 +748,6 @@ var app = {
         admob.setOptions({
             publisherId: admobid.banner,
             interstitialAdId: admobid.interstitial,
-            bannerAtTop: true, // set to true, to put banner at top
             overlap: false, // set to true, to allow banner overlap webview
             offsetStatusBar: true, // set to true to avoid ios7 status bar overlap
             isTesting: true, // receiving test ads (do not test with real ads as your account will be banned)
@@ -804,7 +803,6 @@ var app = {
         }
     },
     onAdLoaded: function (e) {
-        app.showProgress(false);
         if (e.adType === admob.AD_TYPE.INTERSTITIAL) {
             if (app.autoShowInterstitial) {
                 admob.showInterstitialAd();
@@ -826,57 +824,28 @@ var app = {
     // App buttons functionality
     // -----------------------------------
     startBannerAds: function () {
-        app.showProgress(true);
         admob.createBannerView(function (){}, function (e) {
-            alert(JSON.stringify(e));
+            //alert(JSON.stringify(e));
         });
     },
     removeBannerAds: function () {
-        app.showProgress(false);
         admob.destroyBannerView();
     },
     showBannerAds: function () {
-        app.showProgress(false);
         admob.showBannerAd(true, function (){}, function (e) {
-            alert(JSON.stringify(e));
         });
     },
     hideBannerAds: function () {
-        app.showProgress(false);
         admob.showBannerAd(false);
     },
     requestInterstitial: function (autoshow) {
-        app.showProgress(true);
         app.autoShowInterstitial = autoshow;
         admob.requestInterstitialAd(function (){}, function (e) {
-            alert(JSON.stringify(e));
         });
     },
     showInterstitial: function() {
-        app.showProgress(false);
         admob.showInterstitialAd(function (){}, function (e) {
-            alert(JSON.stringify(e));
         });
-    },
-    showProgress: function(show) {
-        if (show) {
-            //addClass(app.spinner, "animated");
-            //removeClass(app.progressDialog, "hidden");
-        } else {
-            //addClass(app.progressDialog, "hidden");
-            //removeClass(app.spinner, "animated");
-        }
     }
+
 };
-
-function removeClass(elem, cls) {
-    var str;
-    do {
-        str = " " + elem.className + " ";
-        elem.className = str.replace(" " + cls + " ", " ").replace(/^\s+|\s+$/g, "");
-    } while (str.match(cls));
-}
-
-function addClass(elem, cls) {
-    elem.className += (" " + cls);
-}
