@@ -44,11 +44,15 @@
         }
 
     </style>
+    <script type="text/javascript" src="cordova.js"></script>
     <script src="js/scrip.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
 </head>
 <body>
 
-<div data-role="page" id="index">
+<div data-role="page" id="index" class="app">
 
     <div data-role="header">
         <h1>Nosso Tatame</h1>
@@ -60,6 +64,7 @@
         <br/>
         <a href="assistir.html" data-role="button" style="margin-top: 50px;" data-theme="c">Assistir técnicas</a>
         <a href="choose.html" data-role="button" data-theme="c">Cronometrar lutas</a>
+        <a data-role="button" onclick="app.startBannerAds()">Start Banner Ads</a>
     </div><!-- /content -->
 
     <div data-role="footer" data-position="fixed">
