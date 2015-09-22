@@ -423,7 +423,7 @@ function inicializa_counts_var(){
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
 $(document).delegate("#assistir", "pageinit", function() {
     //inicializa_counts_var();
-    app.showInterstitial()
+    app.showInterstitial();
 });
 
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
@@ -446,9 +446,121 @@ function verifica_nomes(nome1, nome2){
 //esta funcao faz o apito final.
 function apitar_fim(){
     //alert("Acabou a Luta!");
-    $('#audio').trigger('play');
+    try{
+        $('#audio').trigger('play');
+    }catch (err){
+
+    }
+
+    try{
+        playAudio();
+    }catch (err){
+
+    }
+
+    try{
+        playAudioTwo();
+    }catch (err){
+
+    }
+
+    try{
+        playAudioTr();
+    }catch (err){
+
+    }
+
+    try{
+        playAudioFour();
+    }catch (err){
+
+    }
+
     $('#popup_fim').popup('open');
 }
+
+function playAudio() {
+    var audioElement = document.getElementById('audio');
+    var url = audioElement.getAttribute('src');
+    var my_media = new Media(url,
+        // success callback
+        function () { console.log("playAudio():Audio Success"); },
+        // error callback
+        function (err) { console.log("playAudio():Audio Error: " + err); }
+    );
+    // Play audio
+    my_media.play();
+}
+
+function playAudioTwo(){
+    var audioElement = document.getElementById('audio');
+    audioElement.play();
+}
+
+function playAudioTr(){
+    var url = "https://dl-web.dropbox.com/get/apitodefutebol.mp3?_subject_uid=116519069&w=AAA94DoHaSqRFNYfBdy2WwKQ__J3W-7rj-v79YOu5mXK0Q";
+    var my_media = new Media(url,
+        // success callback
+        function () { console.log("playAudio():Audio Success"); },
+        // error callback
+        function (err) { console.log("playAudio():Audio Error: " + err); }
+    );
+    // Play audio
+    my_media.play();
+}
+
+function playAudioFour(){
+    var url = "file:///android_asset/www/sound/apitodefutebol.mp3";
+    var my_media = new Media(url,
+        // success callback
+        function () { console.log("playAudio():Audio Success"); },
+        // error callback
+        function (err) { console.log("playAudio():Audio Error: " + err); }
+    );
+    // Play audio
+    my_media.play();
+}
+
+function mediaSuccess() {
+    console.log( 'mediaSuccess' );
+}
+function mediaError( errObj ) {
+    console.error( 'mediaError code=' + errObj.code +
+        ' message=' + errObj.message );
+}
+function mediaStatus() {
+    console.log( 'mediaStatus' );
+}
+function createMedia( file ) {
+    if ( typeof Media != 'undefined' ) {
+        if ( (typeof device != 'undefined') &&
+            (device.platform == 'Android') ) {
+            file = '/android_asset/www/' + file ;
+        }
+        return new Media( file, mediaSuccess,
+            mediaError, mediaStatus );
+    }
+    else {
+        return file ;
+    }
+}
+function playSound( media ) {
+    if ( appPaused ) {
+        return ;
+    }
+    if ( typeof Media != 'undefined' ) {
+        media.seekTo(0);
+        media.play();
+    }
+    else {
+        console.log( 'playSound ' + media );
+    }
+}
+
+//// preload sound files
+//snap_mp3 = createMedia( 'snap.mp3' );
+//// play sound file
+//playSound( snap_mp3 );
 
 //esta funcao display o tempo.
 function displayTime(){
@@ -718,7 +830,7 @@ var app = {
 
     // Application Constructor
     initialize: function () {
-        if (( /(ipad|iphone|ipod|android)/i.test(navigator.userAgent) )) {
+        if (( /(ipad|iphone|ipod|android|windows phone)/i.test(navigator.userAgent) )) {
             document.addEventListener('deviceready', this.onDeviceReady, false);
         } else {
             app.onDeviceReady();
@@ -730,19 +842,25 @@ var app = {
         var adPublisherIds = {
             ios : {
                 banner: 'ca-app-pub-9863325511078756/5232547029',
-                interstitial: 'ca-app-pub-9863325511078756/6709280228'
+                interstitial: 'ca-app-pub-2251004839104402/9049637370'
             },
             android : {
                 banner: 'ca-app-pub-9863325511078756/9802347428',
-                interstitial: 'ca-app-pub-1014212550826254/9229586726'
+                interstitial: 'ca-app-pub-2251004839104402/9049637370'
+            },
+            wp8 : {
+                banner: 'ca-app-pub-9863325511078756/9802347428',
+                interstitial: 'ca-app-pub-2251004839104402/9049637370'
             }
         };
 
         var admobid;
-        if (isAndroid) {
+        if(isAndroid ) {
             admobid = adPublisherIds.android;
-        } else {
+        } else if(/(iphone|ipad)/i.test(navigator.userAgent)) {
             admobid = adPublisherIds.ios;
+        } else {
+            admobid = adPublisherIds.wp8;
         }
 
         admob.setOptions({
