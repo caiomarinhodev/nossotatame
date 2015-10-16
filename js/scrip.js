@@ -420,6 +420,8 @@ function inicializa_counts_var(){
     get_value_count_label('raspagens');
 }
 
+//TODO: ADMOB NAO FUNCIONA COM PHONEGAP VERSAO 3.7
+
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
 $(document).delegate("#assistir", "pageinit", function() {
     //inicializa_counts_var();
@@ -443,83 +445,21 @@ function verifica_nomes(nome1, nome2){
     return false;
 }
 
+function getPhoneGapPath() {
+
+    var path = window.location.pathname;
+    path = path.substr( path, path.length - 10 );
+    return 'file://' + path;
+
+};
+
+
 //esta funcao faz o apito final.
 function apitar_fim(){
-    //alert("Acabou a Luta!");
-    try{
-        $('#audio').trigger('play');
-    }catch (err){
-
-    }
-
-    try{
-        playAudio();
-    }catch (err){
-
-    }
-
-    try{
-        playAudioTwo();
-    }catch (err){
-
-    }
-
-    try{
-        playAudioTr();
-    }catch (err){
-
-    }
-
-    try{
-        playAudioFour();
-    }catch (err){
-
-    }
-
+    playAudio();
     $('#popup_fim').popup('open');
 }
 
-function playAudio() {
-    var audioElement = document.getElementById('audio');
-    var url = audioElement.getAttribute('src');
-    var my_media = new Media(url,
-        // success callback
-        function () { console.log("playAudio():Audio Success"); },
-        // error callback
-        function (err) { console.log("playAudio():Audio Error: " + err); }
-    );
-    // Play audio
-    my_media.play();
-}
-
-function playAudioTwo(){
-    var audioElement = document.getElementById('audio');
-    audioElement.play();
-}
-
-function playAudioTr(){
-    var url = "https://dl-web.dropbox.com/get/apitodefutebol.mp3?_subject_uid=116519069&w=AAA94DoHaSqRFNYfBdy2WwKQ__J3W-7rj-v79YOu5mXK0Q";
-    var my_media = new Media(url,
-        // success callback
-        function () { console.log("playAudio():Audio Success"); },
-        // error callback
-        function (err) { console.log("playAudio():Audio Error: " + err); }
-    );
-    // Play audio
-    my_media.play();
-}
-
-function playAudioFour(){
-    var url = "file:///android_asset/www/sound/apitodefutebol.mp3";
-    var my_media = new Media(url,
-        // success callback
-        function () { console.log("playAudio():Audio Success"); },
-        // error callback
-        function (err) { console.log("playAudio():Audio Error: " + err); }
-    );
-    // Play audio
-    my_media.play();
-}
 
 function mediaSuccess() {
     console.log( 'mediaSuccess' );
@@ -535,7 +475,8 @@ function createMedia( file ) {
     if ( typeof Media != 'undefined' ) {
         if ( (typeof device != 'undefined') &&
             (device.platform == 'Android') ) {
-            file = '/android_asset/www/' + file ;
+            var copy = file;
+            file = '/android_asset/www/' + copy ;
         }
         return new Media( file, mediaSuccess,
             mediaError, mediaStatus );
@@ -545,22 +486,13 @@ function createMedia( file ) {
     }
 }
 function playSound( media ) {
-    if ( appPaused ) {
-        return ;
-    }
     if ( typeof Media != 'undefined' ) {
-        media.seekTo(0);
         media.play();
     }
     else {
         console.log( 'playSound ' + media );
     }
 }
-
-//// preload sound files
-//snap_mp3 = createMedia( 'snap.mp3' );
-//// play sound file
-//playSound( snap_mp3 );
 
 //esta funcao display o tempo.
 function displayTime(){
@@ -663,6 +595,7 @@ $(document).delegate("#page_chronometer", "pageinit", function(){
     displayNamePlayer(1, lutador1);
     displayNamePlayer(2, lutador2);
     $(".play").on("tap", function(){
+        clearInterval(interv);
         interv = setInterval(function(){
             time = new Date(time - 1000);
             if(time<=0){
@@ -731,6 +664,19 @@ $(document).delegate("#page_chronometer", "pageinit", function(){
         set_pen_lutador_display(2, pen_lutador2);
     });
 });
+
+function playAudio() {
+    var src = '/android_asset/www/apitodefutebol.mp3';
+    var media = new Media(src, success, error_error);
+    media.play();
+}
+function success() {
+    // ignore
+}
+function error_error(e) {
+    alert('great error');
+    alert(e.message);
+}
 
 //esta funcao seta o pontos do lutador no display.
 function set_pontos_lutador_display(i, value){
@@ -868,7 +814,7 @@ var app = {
             interstitialAdId: admobid.interstitial,
             overlap: false, // set to true, to allow banner overlap webview
             offsetStatusBar: true, // set to true to avoid ios7 status bar overlap
-            isTesting: true, // receiving test ads (do not test with real ads as your account will be banned)
+            isTesting: false, // receiving test ads (do not test with real ads as your account will be banned)
             autoShowBanner: true, // auto show banners ad when loaded
             autoShowInterstitial: false // auto show interstitials ad when loaded
         });

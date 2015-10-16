@@ -11,9 +11,11 @@
         Caio Marinho
     </author>
 
-    <gap:plugin name="com.admob.google" source="plugins.cordova.io" version="2.0.14"/>
+    <preference name="phonegap-version" value="3.7.0" />
 
     <gap:plugin name="org.apache.cordova.media" />
+
+    <gap:plugin name="com.admob.google" source="plugins.cordova.io" version="2.0.14"/>
 
     <!-- Icones -->
     <icon src="img/ic_launcher_crop-web.png"/>
