@@ -1,0 +1,10 @@
+{
+    "com.admob.plugin": {
+        "source": {
+            "type": "registry",
+            "id": "com.admob.plugin"
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}

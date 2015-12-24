@@ -139,7 +139,7 @@ function add_item_in_list(id, title,
                           category, excerpt){
     var lista = $('#lista');
     var item = "<li id='"+id+"'>" +
-        "<a href='#' class='itemizer' onclick='app.showBannerAds()'>" +
+        "<a href='#' class='itemizer' onclick=''>" +
 
         "<img src='"+thumb+"' class='' style='margin: 2px 2px 0px 0px' width='100' height='100'>" +
         "<input type='hidden' class='conteudo' " +
@@ -425,7 +425,7 @@ function inicializa_counts_var(){
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
 $(document).delegate("#assistir", "pageinit", function() {
     //inicializa_counts_var();
-    app.showInterstitial();
+    //app.showInterstitialAds();
 });
 
 //este metodo delega para a pagina de texto, que ao inicializar, inserir conteudo na pagina(html).
@@ -761,155 +761,186 @@ function verifica_advertencia(i){
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
  */
-
-var app = {
-    // global vars
-    autoShowInterstitial: false,
-    //progressDialog: document.getElementById("progressDialog"),
-    //spinner: document.getElementById("spinner"),
-    weinre: {
-        enabled: false,
-        ip: '', // ex. http://192.168.1.13
-        port: '', // ex. 9090
-        targetApp: '' // ex. see weinre docs
-    },
-
-    // Application Constructor
-    initialize: function () {
-        if (( /(ipad|iphone|ipod|android|windows phone)/i.test(navigator.userAgent) )) {
-            document.addEventListener('deviceready', this.onDeviceReady, false);
-        } else {
-            app.onDeviceReady();
-        }
-    },
-    // Must be called when deviceready is fired so AdMobAds plugin will be ready
-    initAds: function () {
-        var isAndroid = (/(android)/i.test(navigator.userAgent));
-        var adPublisherIds = {
-            ios : {
-                banner: 'ca-app-pub-9863325511078756/5232547029',
-                interstitial: 'ca-app-pub-2251004839104402/9049637370'
-            },
-            android : {
-                banner: 'ca-app-pub-9863325511078756/9802347428',
-                interstitial: 'ca-app-pub-2251004839104402/9049637370'
-            },
-            wp8 : {
-                banner: 'ca-app-pub-9863325511078756/9802347428',
-                interstitial: 'ca-app-pub-2251004839104402/9049637370'
-            }
-        };
-
-        var admobid;
-        if(isAndroid ) {
-            admobid = adPublisherIds.android;
-        } else if(/(iphone|ipad)/i.test(navigator.userAgent)) {
-            admobid = adPublisherIds.ios;
-        } else {
-            admobid = adPublisherIds.wp8;
-        }
-
-        admob.setOptions({
-            publisherId: admobid.banner,
-            interstitialAdId: admobid.interstitial,
-            overlap: false, // set to true, to allow banner overlap webview
-            offsetStatusBar: true, // set to true to avoid ios7 status bar overlap
-            isTesting: false, // receiving test ads (do not test with real ads as your account will be banned)
-            autoShowBanner: true, // auto show banners ad when loaded
-            autoShowInterstitial: false // auto show interstitials ad when loaded
-        });
-
-        // Adjust viewport
-        var viewportScale = 1 / window.devicePixelRatio;
-        //document.getElementById("viewport").setAttribute("content", "user-scalable=no, initial-scale=" + viewportScale + ", minimum-scale=0.2, maximum-scale=2, width=device-width");
-    },
-    // Bind Event Listeners
-    bindAdEvents: function () {
-        document.addEventListener("orientationchange", this.onOrientationChange, false);
-        document.addEventListener(admob.events.onAdLoaded, this.onAdLoaded, false);
-        document.addEventListener(admob.events.onAdFailedToLoad, this.onAdFailedToLoad, false);
-        document.addEventListener(admob.events.onAdOpened, function (e) {}, false);
-        document.addEventListener(admob.events.onAdClosed, function (e) {}, false);
-        document.addEventListener(admob.events.onAdLeftApplication, function (e) {}, false);
-        document.addEventListener(admob.events.onInAppPurchaseRequested, function (e) {}, false);
-    },
-
-    // -----------------------------------
-    // Events.
-    // The scope of 'this' is the event.
-    // -----------------------------------
-    onOrientationChange: function () {
-        app.onResize();
-    },
-    onDeviceReady: function () {
-        var weinre,
-            weinreUrl;
-
-        document.removeEventListener('deviceready', app.onDeviceReady, false);
-
-        if (app.weinre.enabled) {
-            console.log('Loading weinre...');
-            weinre = document.createElement('script');
-            weinreUrl = app.weinre.ip + ":" + app.weinre.port;
-            weinreUrl += '/target/target-script-min.js';
-            weinreUrl += '#' + app.weinre.targetApp;
-            weinre.setAttribute('src', weinreUrl);
-            document.head.appendChild(weinre);
-        }
-
-        if (admob) {
-            console.log('Binding ad events...');
-            app.bindAdEvents();
-            console.log('Initializing ads...');
-            app.initAds();
-        } else {
-            alert('AdMobAds plugin not ready');
-        }
-    },
-    onAdLoaded: function (e) {
-        if (e.adType === admob.AD_TYPE.INTERSTITIAL) {
-            if (app.autoShowInterstitial) {
-                admob.showInterstitialAd();
-            } else {
-                alert("Interstitial is available. Click on 'Show Interstitial' to show it.");
-            }
-        }
-    },
-    onAdFailedToLoad: function(e) {
-        app.showProgress(false);
-        alert("Could not load ad: " + e.reason);
-    },
-    onResize: function () {
-        var msg = 'Web view size: ' + window.innerWidth + ' x ' + window.innerHeight;
-        document.getElementById('sizeinfo').innerHTML = msg;
-    },
-
-    // -----------------------------------
-    // App buttons functionality
-    // -----------------------------------
-    startBannerAds: function () {
-        admob.createBannerView(function (){}, function (e) {
-            //alert(JSON.stringify(e));
-        });
-    },
-    removeBannerAds: function () {
-        admob.destroyBannerView();
-    },
-    showBannerAds: function () {
-        admob.showBannerAd(true, function (){}, function (e) {
-        });
-    },
-    hideBannerAds: function () {
-        admob.showBannerAd(false);
-    },
-    requestInterstitial: function (autoshow) {
-        app.autoShowInterstitial = autoshow;
-        admob.requestInterstitialAd(function (){}, function (e) {
-        });
-    },
-    showInterstitial: function() {
-        admob.showInterstitialAd(function (){}, function (e) {
-        });
-    }
-
-};
+//
+//var app = {
+//    // global vars
+//    autoShowInterstitial: false,
+//    //progressDialog: document.getElementById("progressDialog"),
+//    //spinner: document.getElementById("spinner"),
+//    weinre: {
+//        enabled: false,
+//        ip: '', // ex. http://192.168.1.13
+//        port: '', // ex. 9090
+//        targetApp: '' // ex. see weinre docs
+//    },
+//
+//    // Application Constructor
+//    initialize: function () {
+//        if (( /(ipad|iphone|ipod|android|windows phone)/i.test(navigator.userAgent) )) {
+//            document.addEventListener('deviceready', this.onDeviceReady, false);
+//        } else {
+//            app.onDeviceReady();
+//        }
+//    },
+//    // Must be called when deviceready is fired so AdMobAds plugin will be ready
+//    initAds: function () {
+//        var isAndroid = (/(android)/i.test(navigator.userAgent));
+//        var adPublisherIds = {
+//            ios : {
+//                banner: 'ca-app-pub-9863325511078756/5232547029',
+//                interstitial: 'ca-app-pub-2251004839104402/9049637370'
+//            },
+//            android : {
+//                banner: 'ca-app-pub-9863325511078756/9802347428',
+//                interstitial: 'ca-app-pub-2251004839104402/9049637370'
+//            },
+//            wp8 : {
+//                banner: 'ca-app-pub-9863325511078756/9802347428',
+//                interstitial: 'ca-app-pub-2251004839104402/9049637370'
+//            }
+//        };
+//
+//        var admobid;
+//        if(isAndroid ) {
+//            admobid = adPublisherIds.android;
+//        } else if(/(iphone|ipad)/i.test(navigator.userAgent)) {
+//            admobid = adPublisherIds.ios;
+//        } else {
+//            admobid = adPublisherIds.wp8;
+//        }
+//
+//        //admob.setOptions({
+//        //    publisherId: admobid.banner,
+//        //    interstitialAdId: admobid.interstitial,
+//        //    overlap: false, // set to true, to allow banner overlap webview
+//        //    offsetStatusBar: true, // set to true to avoid ios7 status bar overlap
+//        //    isTesting: false, // receiving test ads (do not test with real ads as your account will be banned)
+//        //    autoShowBanner: true, // auto show banners ad when loaded
+//        //    autoShowInterstitial: false // auto show interstitials ad when loaded
+//        //});
+//
+//        var admobParam=new  admob.Params();
+//        //admobParam.extra={'keyword':"admob phonegame"};
+//        //admobParam.isForChild=true;
+//        admobParam.isTesting=false;
+//        admob.showBanner(admob.BannerSize.BANNER,admob.Position.TOP_CENTER,admobParam);
+//
+//        // Adjust viewport
+//        var viewportScale = 1 / window.devicePixelRatio;
+//        //document.getElementById("viewport").setAttribute("content", "user-scalable=no, initial-scale=" + viewportScale + ", minimum-scale=0.2, maximum-scale=2, width=device-width");
+//    },
+//    // Bind Event Listeners
+//    bindAdEvents: function () {
+//        //document.addEventListener(admob.Event.onAdmobBannerDismiss, onAdmobEvent, false);
+//        //document.addEventListener(admob.Event.onAdmobBannerFailedReceive), onAdmobEvent, false);
+//        //document.addEventListener(admob.Event.onAdmobBannerLeaveApplication), onAdmobEvent, false);
+//        //document.addEventListener(admob.Event.onAdmobBannerPresent), onAdmobEvent, false);
+//        //document.addEventListener(admob.Event.onAdmobBannerReceive), onAdmobEvent, false);
+//        //document.addEventListener(admob.Event.onAdmobInterstitialDismiss), onAdmobEvent, false);
+//        //document.addEventListener(admob.Event.onAdmobInterstitialFailedReceive), onAdmobEvent, false);
+//        //document.addEventListener(admob.Event.onAdmobInterstitialLeaveApplication), onAdmobEvent, false);
+//        //document.addEventListener(admob.Event.onAdmobInterstitialPresent), onAdmobEvent, false);
+//        //document.addEventListener(admob.Event.onAdmobInterstitialReceive), onAdmobEvent, false);
+//        //document.addEventListener("orientationchange", this.onOrientationChange, false);
+//        //document.addEventListener(admob.Event.onAdLoaded, this.onAdLoaded, false);
+//        //document.addEventListener(admob.events.onAdFailedToLoad, this.onAdFailedToLoad, false);
+//        //document.addEventListener(admob.events.onAdOpened, function (e) {}, false);
+//        //document.addEventListener(admob.events.onAdClosed, function (e) {}, false);
+//        //document.addEventListener(admob.events.onAdLeftApplication, function (e) {}, false);
+//        //document.addEventListener(admob.events.onInAppPurchaseRequested, function (e) {}, false);
+//        admob.initAdmob(adPublisherIds.android.banner, adPublisherIds.android.interstitial);
+//        document.addEventListener(admob.Event.onInterstitialReceive, app.onInterstitialReceive, false);
+//        document.addEventListener(admob.Event.onInterstitialFailedReceive,app.onReceiveFail, false);
+//        document.addEventListener(admob.Event.onBannerFailedReceive, app.onReceiveFail, false);
+//    },
+//
+//    // -----------------------------------
+//    // Events.
+//    // The scope of 'this' is the event.
+//    // -----------------------------------
+//    onOrientationChange: function () {
+//        app.onResize();
+//    },
+//    onInterstitialReceive: function (message) {
+//        alert(message.type+" ,you can show it now");
+//        //admob.showInterstitial();//show it when received
+//    },
+//    onReceiveFail: function (message) {
+//        var msg=admob.Error[message.data];
+//        if(msg==undefined){
+//            msg=message.data;
+//        }
+//        document.getElementById("index").innerHTML="load fail: "+message.type+"  "+msg;
+//    },
+//    onDeviceReady: function () {
+//        var weinre,
+//            weinreUrl;
+//
+//        document.removeEventListener('deviceready', app.onDeviceReady, false);
+//
+//        if (app.weinre.enabled) {
+//            console.log('Loading weinre...');
+//            weinre = document.createElement('script');
+//            weinreUrl = app.weinre.ip + ":" + app.weinre.port;
+//            weinreUrl += '/target/target-script-min.js';
+//            weinreUrl += '#' + app.weinre.targetApp;
+//            weinre.setAttribute('src', weinreUrl);
+//            document.head.appendChild(weinre);
+//        }
+//
+//        if (admob) {
+//            console.log('Binding ad events...');
+//            app.bindAdEvents();
+//            console.log('Initializing ads...');
+//            app.initAds();
+//        } else {
+//            alert('AdMobAds plugin not ready');
+//        }
+//    },
+//    onAdLoaded: function (e) {
+//        if (e.adType === admob.AD_TYPE.INTERSTITIAL) {
+//            if (app.autoShowInterstitial) {
+//                admob.showInterstitialAd();
+//            } else {
+//                alert("Interstitial is available. Click on 'Show Interstitial' to show it.");
+//            }
+//        }
+//    },
+//    onAdFailedToLoad: function(e) {
+//        app.showProgress(false);
+//        alert("Could not load ad: " + e.reason);
+//    },
+//    onResize: function () {
+//        var msg = 'Web view size: ' + window.innerWidth + ' x ' + window.innerHeight;
+//        document.getElementById('sizeinfo').innerHTML = msg;
+//    },
+//
+//    // -----------------------------------
+//    // App buttons functionality
+//    // -----------------------------------
+//    startBannerAds: function () {
+//        //admob.createBannerView(function (){}, function (e) {
+//        //    //alert(JSON.stringify(e));
+//        //});
+//        admob.showBanner(admob.BannerSize.BANNER, admob.Position.TOP_APP);
+//    },
+//    removeBannerAds: function () {
+//        admob.destroyBannerView();
+//    },
+//    showBannerAds: function () {
+//        admob.showBanner(admob.BannerSize.BANNER, admob.Position.TOP_APP);
+//    },
+//    hideBannerAds: function () {
+//        admob.showBannerAd(false);
+//    },
+//    requestInterstitial: function (autoshow) {
+//        app.autoShowInterstitial = autoshow;
+//        //admob.requestInterstitialAd(function (){}, function (e) {
+//        //});
+//        admob.initAdmob(adPublisherIds.android.banner, adPublisherIds.android.interstitial);
+//    },
+//    showInterstitialAds: function() {
+//        admob.showInterstitial();
+//    }
+//
+//};

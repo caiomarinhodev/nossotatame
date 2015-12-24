@@ -47,7 +47,7 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script src="js/scrip.js"></script>
     <script type="text/javascript">
-        app.initialize();
+//        app.initialize();
     </script>
 </head>
 <body>
@@ -62,13 +62,49 @@
         <img src="img/200.png" class="displayed"/>
         <br/>
         <br/>
-        <a href="assistir.html" data-role="button" style="margin-top: 50px;" data-theme="c" onclick="app.requestInterstitial(true)">Assistir técnicas</a>
-        <a href="choose.html" data-role="button" data-theme="c" onclick="app.startBannerAds()">Cronometrar lutas</a>
+        <a href="assistir.html" data-role="button" style="margin-top: 50px;" data-theme="c" onclick="showTestBanner();">Assistir técnicas</a>
+        <a href="choose.html" data-role="button" data-theme="c" onclick="showInterstitial();">Cronometrar lutas</a>
     </div><!-- /content -->
 
     <div data-role="footer" data-position="fixed">
         <h4>&copy; Nosso Tatame</h4>
     </div><!-- /footer -->
 </div><!-- /page -->
+<script>
+
+    function showTestBanner(){
+        var admobParam=new  admob.Params();
+        //admobParam.extra={'keyword':"admob phonegame"};
+        //admobParam.isForChild=true;
+        admobParam.isTesting=true;
+        admob.showBanner(admob.BannerSize.BANNER,admob.Position.TOP_CENTER,admobParam);
+    }
+    function showInterstitial(){
+        admob.isInterstitialReady(function(isReady){
+            if(isReady){
+                admob.showInterstitial();
+            }
+        });
+    }
+    function onInterstitialReceive (message) {
+        alert(message.type+" ,you can show it now");
+        //admob.showInterstitial();//show it when received
+    }
+    function onReceiveFail (message) {
+        var msg=admob.Error[message.data];
+        if(msg==undefined){
+            msg=message.data;
+        }
+        document.getElementById("alertdiv").innerHTML="load fail: "+message.type+"  "+msg;
+    }
+    function onDeviceReady() {
+        admob.initAdmob("banner ID","interstitial ID");
+        document.addEventListener(admob.Event.onInterstitialReceive, onInterstitialReceive, false);
+        document.addEventListener(admob.Event.onInterstitialFailedReceive,onReceiveFail, false);
+        document.addEventListener(admob.Event.onBannerFailedReceive,onReceiveFail, false);
+    }
+
+    document.addEventListener('deviceready',onDeviceReady, false);
+</script>
 </body>
 </html>
