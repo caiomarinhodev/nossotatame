@@ -76,8 +76,8 @@
         var admobParam=new  admob.Params();
         //admobParam.extra={'keyword':"admob phonegame"};
         //admobParam.isForChild=true;
-        admobParam.isTesting=true;
-        admob.showBanner(admob.BannerSize.BANNER,admob.Position.TOP_CENTER,admobParam);
+        admobParam.isTesting=false;
+        admob.showBanner(admob.BannerSize.BANNER,admob.Position.BOTTOM_APP,admobParam);
     }
     function showInterstitial(){
         admob.isInterstitialReady(function(isReady){
@@ -98,7 +98,7 @@
         document.getElementById("alertdiv").innerHTML="load fail: "+message.type+"  "+msg;
     }
     function onDeviceReady() {
-        admob.initAdmob("banner ID","interstitial ID");
+        admob.initAdmob("ca-app-pub-9863325511078756/9802347428","ca-app-pub-2251004839104402/9049637370");
         document.addEventListener(admob.Event.onInterstitialReceive, onInterstitialReceive, false);
         document.addEventListener(admob.Event.onInterstitialFailedReceive,onReceiveFail, false);
         document.addEventListener(admob.Event.onBannerFailedReceive,onReceiveFail, false);
