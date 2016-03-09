@@ -191,7 +191,10 @@ function get_source_video(content){
         var iframe_init = iframe.indexOf('src=');
         var iframe_finish = iframe.indexOf(' height=');
         var link = iframe.substring(iframe_init+5, iframe_finish-1);
-        link = 'http:'+link;
+        link = link.replace('https', 'http')
+        if(link.indexOf('width') > -1){
+            link = link.substring(0, link.indexOf(' width')-1);
+        }
         url = link;
         print('LINK', link);
         return true;
